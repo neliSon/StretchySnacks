@@ -32,13 +32,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // MARK: Actions
     @IBAction func plusButton(sender: UIButton) {
-//        print("Plus icon pressed.")
         toggleStackView()
         animateNavBarHeight()
         rotatePlusButton()
     }
     
     // MARK: TableViewDelegate
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            foodStrings.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
     
     // MARK: TableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,7 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         openBottomConstraint = stackView.bottomAnchor.constraintEqualToAnchor(self.navBarView.bottomAnchor)
         
-        closedBottomConstraint = stackView.topAnchor.constraintEqualToAnchor(self.navBarView.topAnchor, constant: -(navBarView.frame.height + 15))  // +15 to hide stackview furthur up.
+        closedBottomConstraint = stackView.topAnchor.constraintEqualToAnchor(self.navBarView.topAnchor, constant: -(navBarView.frame.height + 15))  // +15 to hide stackview further up.
         
         closedBottomConstraint.active = true
         openBottomConstraint.active = false
@@ -128,7 +137,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tappedFood(gesture: UITapGestureRecognizer) {
         
         if let namedImageView = gesture.view as? NamedImageView {
-//            print("tapped \(namedImageView.name)")
             foodStrings.append("\(namedImageView.name)")
             tableView.reloadData()
         }
