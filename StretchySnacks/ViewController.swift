@@ -22,8 +22,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var navBarView: UIView!
     
-//    let tapRecognizer = UITapGestureRecognizer()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,7 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // MARK: Actions
     @IBAction func plusButton(sender: UIButton) {
-        print("Plus icon pressed.")
+//        print("Plus icon pressed.")
         toggleStackView()
         animateNavBarHeight()
         rotatePlusButton()
@@ -44,11 +42,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: TableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return foodStrings.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        
+        cell.textLabel?.text = foodStrings[indexPath.row]
         
         return cell
     }
@@ -128,28 +128,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tappedFood(gesture: UITapGestureRecognizer) {
         
         if let namedImageView = gesture.view as? NamedImageView {
-            print("tapped \(namedImageView.name)")
-            
+//            print("tapped \(namedImageView.name)")
+            foodStrings.append("\(namedImageView.name)")
+            tableView.reloadData()
         }
     }
 }
 
-
-
-class NamedImageView: UIImageView {
-    var name: String
-    
-    init(name: String, imageName: String, target: AnyObject, action: Selector = #selector(ViewController.tappedFood(_:))) {
-        self.name = name
-        super.init(image: UIImage(named: imageName))
-        
-        self.userInteractionEnabled = true
-        let tapRecognizer = UITapGestureRecognizer(target: target, action: action)
-        self.addGestureRecognizer(tapRecognizer)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
