@@ -60,6 +60,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="navBarHeightConstraint" destination="NEA-ZH-BDT" id="DJB-cI-rSp"/>
+                        <outlet property="navBarView" destination="Rkg-Qu-ryB" id="5Je-PC-lPu"/>
                         <outlet property="plusButton" destination="swu-Cq-Vsb" id="QGu-PF-rFl"/>
                     </connections>
                 </viewController>
